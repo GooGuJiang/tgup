@@ -27,6 +27,9 @@ socket.socket = socks.socksocket
 #是否单独生成视频封面文件，默认不生成（'n'），如要生成请改'y'
 video_cover_file = 'n'
 
+#是否删除文字说明的后缀，默认不删除（为空），如要删除，请填写'.mp4'
+filename_del_format = ''
+
 #需要上传的文件格式
 video_format = ['*.mp4', '*.mov']
 
@@ -70,7 +73,7 @@ def tgup_video_one(files): #单视频文件上传
             def callback(current, total):
                 print('\r[{:0>5.2f}%] {}'.format(current / total * 100, files), end='')
             width, height, time, thumb = get_metedata(files)
-            filename = str(files).replace(argv[1], "").replace('\\', '')
+            filename = str(files).replace(argv[1], "").replace('\\', '').replace(filename_del_format, '')
             client.send_video(chat.id, str(files), caption=f'{filename}', width=width, height=height, thumb=thumb, duration=time, progress=callback)
             print(f"\n上传完毕-{str(files)}")
         except:
