@@ -13,22 +13,22 @@ from pyrogram import Client
 
 
 #填写这些，参见 https://core.telegram.org/api/obtaining_api_id
-API_NAME = "test"
+API_NAME = 'test'
 API_ID = 123456
-API_HASH = "xxxxx"
+API_HASH = 'xxxxx'
 
 #上传目的地（群组/频道）（必须邀请链接格式）
 target = 'https://t.me/joinchat/xxxxxx'
 
 #修改SOCKS5代理地址与端口,如不需请注销掉
-socks.set_default_proxy(socks.SOCKS5, "127.0.0.1", 1082)
+socks.set_default_proxy(socks.SOCKS5, '127.0.0.1', 1082)
 socket.socket = socks.socksocket
 
 #是否单独生成视频封面文件，默认不生成（'n'），如要生成请改'y'
-video_cover_file = 'n'
+video_cover_file = 'y'
 
 #是否删除文字说明的后缀，默认不删除（为空），如要删除，请填写'.mp4'
-filename_del_format = ''
+filename_del_format = '.mp4'
 
 #需要上传的文件格式
 video_format = ['*.mp4', '*.mov']
@@ -57,11 +57,11 @@ def get_metedata(file): #获取视频信息和缩略图
 
     if video_cover_file == 'y':
         if 2 < time:
-            cmd_2 = f'ffmpeg -ss {time_random} -i {files_copy} -f image2 -frames:v 1 {files_copy.replace(".mp4", ".jpg")}'
+            cmd_thumb_2 = f'@echo y | ffmpeg -ss {time_random} -i {files_copy} -f image2 -frames:v 1 {files_copy.replace(".mp4", ".jpg")}'
         else:
-            cmd_2 = f'ffmpeg -ss 0:01 -i {files_copy} -f image2 -frames:v 1 {files_copy.replace(".mp4", ".jpg")}'
-        cmd_2_run = check_output(cmd_2, shell=True).decode()
-        thumb = str(file).replace(".mp4", ".jpg")
+            cmd_thumb_2 = f'@echo y | ffmpeg -ss 0:01 -i {files_copy} -f image2 -frames:v 1 {files_copy.replace(".mp4", ".jpg")}'
+        cmd_thumb_2_run = check_output(cmd_thumb_2, shell=True, stderr=DEVNULL)
+        thumb = str(file).replace('.mp4', '.jpg')
 
     return int(width), int(height), time, thumb
 
@@ -73,14 +73,14 @@ def tgup_video_one(files): #单视频文件上传
             def callback(current, total):
                 print('\r[{:0>5.2f}%] {}'.format(current / total * 100, files), end='')
             width, height, time, thumb = get_metedata(files)
-            filename = str(files).replace(argv[1], "").replace('\\', '').replace(filename_del_format, '')
+            filename = str(files).replace(argv[1], '').replace('\\', '').replace(filename_del_format, '')
             client.send_video(chat.id, str(files), caption=f'{filename}', width=width, height=height, thumb=thumb, duration=time, progress=callback)
-            print(f"\n上传完毕-{str(files)}")
+            print(f'\n上传完毕-{str(files)}')
         except:
             print(f'上传出错-{str(files)}')
             client.send_message('me', f'上传出错-{str(files)}')
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     if len(argv) == 1: #判断参数
         print(f'用法: {argv[0]} 文件夹')
         exit()
