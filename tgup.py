@@ -1,5 +1,6 @@
 # -*- codeing = utf-8 -*-
-
+import socket
+import socks
 import logging
 import random
 import datetime
@@ -19,9 +20,14 @@ API_HASH = "xxxxx"
 #上传目的地（群组/频道）（必须邀请链接格式）
 target = 'https://t.me/joinchat/xxxxxx'
 
-video_format = ['*.mp4', '*.mov']
-logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s', level=logging.WARN)
+#修改SOCKS5代理地址与端口,如不需请注销掉
+socks.set_default_proxy(socks.SOCKS5, "127.0.0.1", 1082)
+socket.socket = socks.socksocket
 
+#需要上传的文件格式
+video_format = ['*.mp4', '*.mov']
+
+logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s', level=logging.WARN)
 
 def get_metedata(file): #获取视频信息和缩略图
     files_copy = file
@@ -59,7 +65,7 @@ def tgup_video_one(files): #单视频文件上传
 
 if __name__ == "__main__":
     if len(argv) == 1: #判断参数
-        print(f'Usage: {argv[0]} 文件夹')
+        print(f'用法: {argv[0]} 文件夹')
         exit()
     if len(argv) == 2: #判断参数
         for tpV in video_format:  # 判断视频格式
