@@ -24,6 +24,9 @@ target = 'https://t.me/joinchat/xxxxxx'
 socks.set_default_proxy(socks.SOCKS5, "127.0.0.1", 1082)
 socket.socket = socks.socksocket
 
+#是否单独生成视频封面文件，默认不生成（'n'），如要生成请改'y'
+video_cover_file = 'n'
+
 #需要上传的文件格式
 video_format = ['*.mp4', '*.mov']
 
@@ -35,10 +38,12 @@ def get_metedata(file): #获取视频信息和缩略图
         files_copy = f'"{str(files_copy)}"' #win
     elif platform.system().lower() == 'linux':
         files_copy = f"'{str(files_copy)}'" #Linux
+
     cmd = f'ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 {files_copy}'
     width, height = check_output(cmd, shell=True).decode().split('x')
     cmd_time = f'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 {files_copy}'
     time = int(float(check_output(cmd_time, shell=True).strip()))
+
     if 2 < time :
         time_random = datetime.timedelta(seconds=int(random.randint(2, time - 1)))
         cmd_thumb = f'ffmpeg -ss {time_random} -i {files_copy} -f image2 -frames:v 1 -'
@@ -46,6 +51,15 @@ def get_metedata(file): #获取视频信息和缩略图
         cmd_thumb = f'ffmpeg -ss 0:01 -i {files_copy} -f image2 -frames:v 1 -'
     thumb = BytesIO(check_output(cmd_thumb, shell=True, stderr=DEVNULL))
     thumb.name = 'thumb.jpg'
+
+    if video_cover_file == 'y':
+        if 2 < time:
+            cmd_2 = f'ffmpeg -ss {time_random} -i {files_copy} -f image2 -frames:v 1 {files_copy.replace(".mp4", ".jpg")}'
+        else:
+            cmd_2 = f'ffmpeg -ss 0:01 -i {files_copy} -f image2 -frames:v 1 {files_copy.replace(".mp4", ".jpg")}'
+        cmd_2_run = check_output(cmd_2, shell=True).decode()
+        thumb = str(file).replace(".mp4", ".jpg")
+
     return int(width), int(height), time, thumb
 
 
