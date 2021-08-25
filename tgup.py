@@ -25,10 +25,10 @@ socks.set_default_proxy(socks.SOCKS5, '127.0.0.1', 1082)
 socket.socket = socks.socksocket
 
 #是否单独生成视频封面文件，默认不生成（'n'），如要生成请改'y'
-video_cover_file = 'y'
+video_cover_file = 'n'
 
 #是否删除文字说明的后缀，默认不删除（为空），如要删除，请填写'.mp4'
-filename_del_format = '.mp4'
+filename_del_format = ''
 
 #需要上传的文件格式
 video_format = ['*.mp4', '*.mov']
