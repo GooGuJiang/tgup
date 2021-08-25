@@ -35,9 +35,9 @@ https://core.telegram.org/api/obtaining_api_id
 ## 配置
 编辑`tgup.py`文件  
 根据已创建的TG API对应修改值  
+`API_NAME` → `App title`  
 `API_ID` → `App api_id`  
 `API_HASH` → `App api_hash`  
-`API_NAME` → `App title`  
 `target` → 修改你上传目的地（频道/群组）（注意必须是邀请url格式，即使是公开频道也可以创建额外的邀请url）
   
 修改` 24行` 的SOCKS5代理地址与端口  
