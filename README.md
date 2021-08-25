@@ -39,7 +39,9 @@ https://core.telegram.org/api/obtaining_api_id
 `API_NAME` → `App title`  
 `API_ID` → `App api_id`  
 `API_HASH` → `App api_hash`  
-`target` → 修改你上传目的地（频道/群组）（注意必须是邀请url格式，即使是公开频道也可以创建额外的邀请url）
+
+- 修改你上传目的地(频道/群组)(注意必须是邀请url格式，即使是公开频道也可以创建额外的邀请url)  
+`target = 'https://t.me/joinchat/xxx'`
   
 - SOCKS5代理  
 修改`24行` 的SOCKS5代理地址与端口  
