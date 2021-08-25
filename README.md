@@ -15,7 +15,7 @@
 
 ## 安装教程
 下载安装`python 3.9+`和`ffmpeg`   
-还有本项目的`tgup.py`  
+还有本项目的`tgup.py`文件  
 再安装`pyrogram`
 ```
 pip3 install pyrogram
@@ -40,7 +40,7 @@ https://core.telegram.org/api/obtaining_api_id
 `API_HASH` → `App api_hash`  
 `target` → 修改你上传目的地（频道/群组）（注意必须是邀请url格式，即使是公开频道也可以创建额外的邀请url）
   
-修改` 24行` 的SOCKS5代理地址与端口  
+修改`24行` 的SOCKS5代理地址与端口  
 
 ## 用法
 ```
